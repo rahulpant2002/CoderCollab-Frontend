@@ -8,6 +8,7 @@ import { BACKEND_URL } from "../utils/constant";
 const Login = () => {
     const [emailId, setEmailId] = useState("rahul@gmail.com");
     const [password, setPassword] = useState("rahul@123");
+    const [errorMessage, setErrorMessage] = useState(null);
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -18,11 +19,12 @@ const Login = () => {
                 emailId,
                 password,
             }, {withCredentials : true});
+            console.log(res);
             dispatch(addUser(res.data));
             navigate('/');
         }
         catch(err){
-            console.error(err.response.data);
+            setErrorMessage(err.response.data);
         }
     };
 
@@ -43,9 +45,9 @@ const Login = () => {
                     <div className="label">
                         <span className="label-text">Password</span>
                     </div>
-                    <input type="text" value={password} onChange={e => {setPassword(e.target.value)}} className="input input-bordered w-full max-w-xs" />
+                    <input type="password" value={password} onChange={e => {setPassword(e.target.value)}} className="input input-bordered w-full max-w-xs" />
                 </label> 
-
+                {errorMessage && <p className="text-red-600 text-lg">{errorMessage}</p>}
                 <div className="card-actions justify-center mt-3 ">
                     <button className="btn btn-primary font-bold text-lg " onClick={handleLogin} >Login</button>
                 </div>

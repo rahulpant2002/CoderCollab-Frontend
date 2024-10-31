@@ -3,11 +3,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { BACKEND_URL } from "../utils/constant";
 import { removeUser } from "../store/userSlice";
+import useOnlineStatus from "../utils/useOnlineStatus"
 
 const NavBar = () => {
   const user = useSelector(store => store.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const isOnline = useOnlineStatus();
 
   const handleLogout = async()=>{
     try{
@@ -31,10 +34,11 @@ const NavBar = () => {
               <input type="text" placeholder="Search" className="input input-bordered w-24 md:w-auto" />
             </div>
 
-            <p className="font-bold">Welcome, {user.firstName}</p>
+            {isOnline && <p className="font-bold">Welcome, {user.firstName}</p>}
 
             <div className="dropdown dropdown-end mr-5">
-              <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
+              <div tabIndex={0} role="button" className="btn relative btn-ghost btn-circle avatar">
+                <p className="font-bold absolute top-0 right-0"> {isOnline ? "🟢" : "🔴"} </p>
                 <div className="w-10 rounded-full">
                   <img alt="Profile Photo" src={ user.photoUrl } />
                 </div>

@@ -30,7 +30,7 @@ const Body = () => {
   }, [])
 
   return (
-    <div>
+    <div className='flex flex-col min-h-full'>
       <NavBar/>
       <Outlet/>
       <Footer/>

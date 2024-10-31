@@ -29,13 +29,13 @@ const Connections = () => {
 
     if(connection.length === 0){
         return (
-            <h2 className='text-2xl font-bold'>No Connection Found...</h2>
+            <h2 className='text-2xl font-bold text-center'>No Connection Found</h2>
         )
     }
 
   return connection && (
     <div>
-        <h1 className='text-2xl font-bold text-center mt-3' >Connections</h1>
+        <h1 className='text-2xl font-bold text-center mt-3' >Connections - {connection.length}</h1>
         <div className='flex flex-col gap-3 mt-10 pl-3 py-3'>
             {
                 connection.map(conn=><Friend key={conn._id} user={conn} />)

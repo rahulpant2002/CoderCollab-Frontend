@@ -21,8 +21,8 @@ function App() {
               <Route path="/login" element={<Login/>}/>
               <Route path="/profile" element={<Profile/>} />
               <Route path="/connections" element={<Connections/>}/> 
-              <Route path="/requestSent" element={<SentRequest/>} />
-              <Route path="/requestReceived" element={<ReceivedRequest/>} />
+              <Route path="/sentRequest" element={<SentRequest/>} />
+              <Route path="/receivedRequest" element={<ReceivedRequest/>} />
             </Route>
           </Routes>
         </BrowserRouter>

@@ -7,7 +7,7 @@ const Friend = ({user}) => {
     // }
 
   return (
-    <div className='flex w-[50%] mx-auto gap-3 bg-base-300 rounded-md'>
+    <div className='flex w-[60%] mx-auto gap-3 bg-base-300 rounded-md'>
         <img src={photoUrl} alt="Profile Pic" className='w-[120px] h-[120px] rounded-full' />
         <div className='flex flex-col justify-center'>
             <div className='font-bold text-xl'> {firstName + " " + lastName} </div>

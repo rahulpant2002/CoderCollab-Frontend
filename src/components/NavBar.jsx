@@ -5,11 +5,15 @@ import { BACKEND_URL } from "../utils/constant";
 import { removeUser } from "../store/userSlice";
 import useOnlineStatus from "../utils/useOnlineStatus"
 import { removeFeed } from "../store/feedSlice";
+import { removeConnection } from "../store/connectionSlice";
 
 const NavBar = () => {
   const user = useSelector(store => store.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const connection = useSelector(store=>store.connection);
+  const receivedRequest = useSelector(store=>store.receivedRequest);
 
   const isOnline = useOnlineStatus();
 
@@ -17,7 +21,6 @@ const NavBar = () => {
     try{
       await axios.post(BACKEND_URL + '/logout', {}, {withCredentials : true});
       dispatch(removeUser());
-      dispatch(removeFeed())
       navigate('/login');
     }
     catch(err){
@@ -31,7 +34,11 @@ const NavBar = () => {
             <Link to="/" className="btn btn-ghost text-2xl font-bold text-blue-600"> CoderCollab </Link>
           </div>
 
+
           {user && <div className="flex-none gap-2">
+              <Link to="/receivedRequest"  className="bg-base-100 px-2 py-2 rounded-md font-bold">
+                Friend Request
+              </Link>
             <div className="form-control">
               <input type="text" placeholder="Search" className="input input-bordered w-24 md:w-auto" />
             </div>
@@ -54,7 +61,7 @@ const NavBar = () => {
                     Profile
                   </Link>
                 </li>
-                <li><Link to='/connections'>Connections</Link></li>
+                <li><Link to='/connections'>Connections - {connection ? connection.length : 0}</Link></li>
                 <li><a onClick={handleLogout}>Logout</a></li>
               </ul>
 

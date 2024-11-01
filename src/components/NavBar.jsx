@@ -43,7 +43,7 @@ const NavBar = () => {
 
           {user && <div className="flex-none gap-2">
               <Link to="/receivedRequest"  className="bg-base-100 px-2 py-2 rounded-md font-bold">
-                Received Request
+                Received Requests
               </Link>
             <div className="form-control">
               <input type="text" placeholder="Search" className="input input-bordered w-24 md:w-auto" />

@@ -13,7 +13,6 @@ const SentRequest = () => {
     try{
       const res = await axios.get(BACKEND_URL+'/user/sentRequests', {withCredentials:true});
       dispatch(addSentRequest(res.data.allSentRequests));
-      console.log(res.data.allSentRequests);
     }
     catch(err){
       console.error(err);
@@ -35,7 +34,7 @@ const SentRequest = () => {
       <div className='font-bold text-xl text-center my-3'>Sent Requests - {sentRequest.length}</div>
       <div className='flex flex-col gap-3 mb-3'>
         {
-          sentRequest.map(req=><Friend key={req._id} user={req.toUserId} /> )
+          sentRequest.map(req=><Friend key={req._id} data={{user : req.toUserId, _id : req._id , type : "sentRequests"}} /> )
         }
       </div>
     </div>

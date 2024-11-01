@@ -13,7 +13,6 @@ const ReceivedRequest = () => {
     try{
       const req = await axios.get(BACKEND_URL+"/user/receivedRequests", {withCredentials : true});
       dispatch(addReceivedRequest(req.data.allReceivedRequests));
-      console.log(req.data.allReceivedRequests);
     }
     catch(err){
       console.error(err);
@@ -34,7 +33,7 @@ const ReceivedRequest = () => {
       <div className='font-bold text-xl text-center my-3'>Received Requests - {receivedRequest.length}</div>
       <div className='flex flex-col gap-3 mb-3'>
         {
-          receivedRequest.map(req=><Friend key={req._id} user={req.fromUserId} />)
+          receivedRequest.map(req=><Friend key={req._id} data={{user : req.fromUserId, _id : req._id, type : "receivedRequests"}} />)
         }
       </div>
     </div>

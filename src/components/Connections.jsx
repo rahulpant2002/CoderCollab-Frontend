@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux'
 import { BACKEND_URL } from '../utils/constant';
 import axios from 'axios';
 import { addConnections } from '../store/connectionSlice';
-import UserCard from './UserCard';
 import Friend from './Friend';
 
 const Connections = () => {
@@ -13,8 +12,8 @@ const Connections = () => {
     const fetchConnection = async()=>{
         try{
             const res = await axios.get(BACKEND_URL + '/user/connections', {withCredentials:true});
+            console.log(res);
             dispatch(addConnections(res.data.data));
-            console.log(res.data.data);
         }
         catch(err){
             console.error(err);
@@ -33,12 +32,14 @@ const Connections = () => {
         )
     }
 
-  return connection && (
+  return (
     <div>
         <h1 className='text-2xl font-bold text-center mt-3' >Connections - {connection.length}</h1>
         <div className='flex flex-col gap-3 mt-10 pl-3 py-3'>
             {
-                connection.map(conn=><Friend key={conn._id} user={conn} />)
+                connection.map(conn=>{
+                    return <Friend key={conn._id} data={{user : conn.data, _id : conn._id, type : "connections"}}
+              />})
             }
         </div>
     </div>
@@ -46,3 +47,4 @@ const Connections = () => {
 }
 
 export default Connections
+

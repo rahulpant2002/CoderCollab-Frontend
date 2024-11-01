@@ -4,18 +4,15 @@ import { Link, useNavigate } from "react-router-dom";
 import { BACKEND_URL } from "../utils/constant";
 import { removeUser } from "../store/userSlice";
 import useOnlineStatus from "../utils/useOnlineStatus"
-import { removeFeed } from "../store/feedSlice";
-import { removeConnection } from "../store/connectionSlice";
-import { removeReceivedRequest } from "../store/receivedRequestSlice";
-import { removeSentRequest } from "../store/sentRequestSlice";
+import { clearFeed} from "../store/feedSlice";
+import { clearConnection } from "../store/connectionSlice";
+import { clearReceivedRequest } from "../store/receivedRequestSlice";
+import { clearSentRequest } from "../store/sentRequestSlice";
 
 const NavBar = () => {
   const user = useSelector(store => store.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
-  const connection = useSelector(store=>store.connection);
-  const receivedRequest = useSelector(store=>store.receivedRequest);
 
   const isOnline = useOnlineStatus();
 
@@ -23,10 +20,10 @@ const NavBar = () => {
     try{
       await axios.post(BACKEND_URL + '/logout', {}, {withCredentials : true});
       dispatch(removeUser());
-      dispatch(removeFeed());
-      dispatch(removeConnection());
-      dispatch(removeReceivedRequest());
-      dispatch(removeSentRequest());
+      dispatch(clearFeed());
+      dispatch(clearConnection());
+      dispatch(clearReceivedRequest());
+      dispatch(clearSentRequest());
       navigate('/login');
     }
     catch(err){

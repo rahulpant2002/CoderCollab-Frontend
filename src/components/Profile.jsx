@@ -3,7 +3,9 @@ import EditProfile from "./EditProfile";
 
 const Profile = () => {
   const user = useSelector(store=>store.user);
-  return user && (
+
+  if(!user) return;
+  return (
     <div className="flex justify-center ">
       <EditProfile user={user}/>
     </div>

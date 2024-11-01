@@ -1,16 +1,20 @@
 import React from 'react'
 import { BACKEND_URL } from '../utils/constant';
 import axios from 'axios';
+import { useDispatch } from 'react-redux';
+import { removeOneReceivedRequest } from '../store/receivedRequestSlice';
+import { removeOneSentRequest } from '../store/sentRequestSlice';
+import { removeOneConnection } from '../store/connectionSlice';
 
 const Friend = ({data}) => {
     const {user, type, _id} = data;
-    // console.log(user);
     const {firstName, lastName, photoUrl, age, gender, about} = user;
+    const dispatch = useDispatch();
 
     const handleReceivedRequest = async(status, _id)=>{
       try{
         const res = await axios.post(BACKEND_URL+'/request/review/'+status+'/'+_id, {}, {withCredentials : true});
-        console.log(res);
+        dispatch(removeOneReceivedRequest(_id));
       }
       catch(err){
         console.error(err);
@@ -19,8 +23,8 @@ const Friend = ({data}) => {
 
     const handleCancel = async(_id)=>{
       try{
-        const res = await axios.post('http://localhost:7777/connection/remove' +_id, {}, {withCredentials:true});
-        console.log(res);
+        const res = await axios.post(BACKEND_URL+'/request/cancel/' +_id, {}, {withCredentials:true});
+        dispatch(removeOneSentRequest(_id));
       }
       catch(err){
         console.error(err);
@@ -30,7 +34,7 @@ const Friend = ({data}) => {
     const handleRemove = async(_id)=>{
       try{
         const res = await axios.post(BACKEND_URL+'/connection/remove/'+_id, {}, {withCredentials:true});
-        console.log(res);
+        dispatch(removeOneConnection(_id));
       }
       catch(err){
         console.error(err);

@@ -12,7 +12,6 @@ const Connections = () => {
     const fetchConnection = async()=>{
         try{
             const res = await axios.get(BACKEND_URL + '/user/connections', {withCredentials:true});
-            console.log(res);
             dispatch(addConnections(res.data.data));
         }
         catch(err){

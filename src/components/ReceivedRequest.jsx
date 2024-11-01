@@ -26,12 +26,12 @@ const ReceivedRequest = () => {
 
   if(!receivedRequest) return;
   if(receivedRequest.length === 0){
-    return <div className='text-xl font-bold text-center'>No Friend Request</div>
+    return <div className='text-xl font-bold text-center'>No Request</div>
   }
 
   return (
     <div>
-      <div className='font-bold text-xl text-center my-3'>Friend Requests - {receivedRequest.length}</div>
+      <div className='font-bold text-xl text-center my-3'>Received Requests - {receivedRequest.length}</div>
       <div className='flex flex-col gap-3 mb-3'>
         {
           receivedRequest.map(req=><Friend key={req._id} user={req.fromUserId} />)

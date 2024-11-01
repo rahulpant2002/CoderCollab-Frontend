@@ -6,6 +6,8 @@ import { removeUser } from "../store/userSlice";
 import useOnlineStatus from "../utils/useOnlineStatus"
 import { removeFeed } from "../store/feedSlice";
 import { removeConnection } from "../store/connectionSlice";
+import { removeReceivedRequest } from "../store/receivedRequestSlice";
+import { removeSentRequest } from "../store/sentRequestSlice";
 
 const NavBar = () => {
   const user = useSelector(store => store.user);
@@ -21,6 +23,10 @@ const NavBar = () => {
     try{
       await axios.post(BACKEND_URL + '/logout', {}, {withCredentials : true});
       dispatch(removeUser());
+      dispatch(removeFeed());
+      dispatch(removeConnection());
+      dispatch(removeReceivedRequest());
+      dispatch(removeSentRequest());
       navigate('/login');
     }
     catch(err){
@@ -37,7 +43,7 @@ const NavBar = () => {
 
           {user && <div className="flex-none gap-2">
               <Link to="/receivedRequest"  className="bg-base-100 px-2 py-2 rounded-md font-bold">
-                Friend Request
+                Received Request
               </Link>
             <div className="form-control">
               <input type="text" placeholder="Search" className="input input-bordered w-24 md:w-auto" />
@@ -61,7 +67,8 @@ const NavBar = () => {
                     Profile
                   </Link>
                 </li>
-                <li><Link to='/connections'>Connections - {connection ? connection.length : 0}</Link></li>
+                <li><Link to='/connections'>Connections</Link></li>
+                <li><Link to='/sentRequest'>Sent Requests</Link></li>
                 <li><a onClick={handleLogout}>Logout</a></li>
               </ul>
 

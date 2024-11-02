@@ -23,6 +23,9 @@ const Feed = () => {
     if(!feed) fetchFeed();
   }, [])
 
+  if(!feed) return;
+  if(feed.length === 0) return <div className='text-xl text-center font-bold mt-3'>No More Users</div>
+
   return (
     feed && <div className='flex justify-center my-1'>
         <UserCard user={feed[0]} />

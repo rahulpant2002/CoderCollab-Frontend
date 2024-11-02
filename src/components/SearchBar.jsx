@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { BACKEND_URL } from '../utils/constant';
 import { addSearch } from '../store/searchSlice';
 
+
 const Search = () => {
     const [text, setText] = useState("");
     const navigate = useNavigate();
@@ -40,10 +41,11 @@ const Search = () => {
     if(!allUser) return;
 
   return (
-    <div className="form-control">
+    <div className="form-control flex flex-row gap-1">
         <input type="text" value={text} onChange={e=>setText(e.target.value)} onKeyDown={(e)=>{
             if(e.key==="Enter") handleSearch();
         }} placeholder="Search Skills/Developers" className="input input-bordered w-24 md:w-auto" />
+        <button className='bg-white opacity-80 rounded-lg' onClick={handleSearch}>🔍</button>
     </div>
   )
 }

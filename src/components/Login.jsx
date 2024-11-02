@@ -37,15 +37,9 @@ const Login = () => {
 
     const handleSignUp = async()=>{
         try{
-            await axios.post(BACKEND_URL + "/signup", {firstName, lastName, emailId, password}, {withCredentials : true});
-            setToastMessage(true)
-            setTimeout(()=>{
-                setToastMessage("User Signed Up Successfully.");
-                setEmailId("");
-                setPassword("");
-                setIsLogin(true);
-                setIsForgotPassword(false);
-            }, 2000)
+            const user = await axios.post(BACKEND_URL + "/signup", {firstName, lastName, emailId, password}, {withCredentials : true});
+            dispatch(addUser(user.data.data));
+            navigate('/profile')
         }
         catch(err){
             setErrorMessage(err.response.data);

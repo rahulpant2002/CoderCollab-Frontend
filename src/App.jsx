@@ -8,6 +8,8 @@ import Feed from "./components/Feed"
 import Connections from "./components/Connections"
 import SentRequest from "./components/SentRequest"
 import ReceivedRequest from "./components/ReceivedRequest"
+import UpdatePassword from "./components/UpdatePassword"
+import Search from "./components/Search"
 
 function App() {
 
@@ -23,6 +25,8 @@ function App() {
               <Route path="/connections" element={<Connections/>}/> 
               <Route path="/sentRequest" element={<SentRequest/>} />
               <Route path="/receivedRequest" element={<ReceivedRequest/>} />
+              <Route path="/updatePassword" element={<UpdatePassword/>} />
+              <Route path="/search" element={<Search/>}/>
             </Route>
           </Routes>
         </BrowserRouter>

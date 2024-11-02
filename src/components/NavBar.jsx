@@ -8,6 +8,7 @@ import { clearFeed} from "../store/feedSlice";
 import { clearConnection } from "../store/connectionSlice";
 import { clearReceivedRequest } from "../store/receivedRequestSlice";
 import { clearSentRequest } from "../store/sentRequestSlice";
+import Search from "./SearchBar";
 
 const NavBar = () => {
   const user = useSelector(store => store.user);
@@ -39,12 +40,15 @@ const NavBar = () => {
 
 
           {user && <div className="flex-none gap-2">
-              <Link to="/receivedRequest"  className="bg-base-100 px-2 py-2 rounded-md font-bold">
-                Received Requests
-              </Link>
-            <div className="form-control">
-              <input type="text" placeholder="Search" className="input input-bordered w-24 md:w-auto" />
-            </div>
+
+            <Link to="/" className="bg-base-100 btn btn-ghost text-xl text-green-300">
+              Home 🏠︎
+            </Link>
+            <Link to="/receivedRequest"  className="bg-base-100 px-2 py-2 rounded-md font-bold">
+              Received Requests
+            </Link>
+
+            <Search/>
 
             {isOnline && <p className="font-bold">Welcome, {user.firstName}</p>}
 
@@ -59,14 +63,11 @@ const NavBar = () => {
               <ul
                 tabIndex={0}
                 className="menu menu-sm dropdown-content bg-base-300 rounded-box z-[1] mt-3 w-52 p-2 shadow">
-                <li>
-                  <Link to='/profile' className="justify-between">
-                    Profile
-                  </Link>
-                </li>
+                <li><Link to='/profile' className="justify-between">Profile</Link></li>
                 <li><Link to='/connections'>Connections</Link></li>
                 <li><Link to='/sentRequest'>Sent Requests</Link></li>
-                <li><a onClick={handleLogout}>Logout</a></li>
+                <li><Link to='/updatePassword'>Update Password</Link></li>
+                <li><Link onClick={handleLogout}>Logout</Link></li>
               </ul>
 
             </div>

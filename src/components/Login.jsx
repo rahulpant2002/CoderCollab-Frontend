@@ -26,7 +26,7 @@ const Login = () => {
                 emailId,
                 password,
             }, {withCredentials : true});
-
+            setErrorMessage("");
             dispatch(addUser(res.data));
             navigate('/');
         }
@@ -38,6 +38,7 @@ const Login = () => {
     const handleSignUp = async()=>{
         try{
             const user = await axios.post(BACKEND_URL + "/signup", {firstName, lastName, emailId, password}, {withCredentials : true});
+            setErrorMessage("");
             dispatch(addUser(user.data.data));
             navigate('/profile')
         }

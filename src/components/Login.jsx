@@ -98,7 +98,11 @@ const Login = () => {
                     <div className="label">
                         <span className="label-text">Password</span>
                     </div>
-                    <input type="password" value={password} onChange={e => {setPassword(e.target.value)}} className="input input-bordered w-full max-w-xs" />
+                    <input type="password" value={password} onKeyDown={(e)=>{
+                            if(e.key==="Enter"){
+                                isLogin ? handleLogin() : handleSignUp();
+                            }
+                        }} onChange={e => {setPassword(e.target.value)}} className="input input-bordered w-full max-w-xs" />
                 </label>}
 
                 {
@@ -106,7 +110,11 @@ const Login = () => {
                         <div className="label">
                             <span className="label-text">New Password</span>
                         </div>
-                        <input type="password" value={newPassword} onChange={e => {setNewPassword(e.target.value)}} className="input input-bordered w-full max-w-xs" />
+                        <input type="password" value={newPassword} onKeyDown={(e)=>{
+                            if(e.key==="Enter"){
+                                handleForgotPassword();
+                            }
+                        }} onChange={e => {setNewPassword(e.target.value)}} className="input input-bordered w-full max-w-xs" />
                     </label>
                 }
 

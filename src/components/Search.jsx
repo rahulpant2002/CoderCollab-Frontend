@@ -4,11 +4,6 @@ import Friend from './Friend';
 
 const Search = () => {
     const searchRes = useSelector(store=>store.search);
-    // const 
-
-    // useEffect(()=>{
-        
-    // }, [searchRes])
 
     if(!searchRes) return;
     if(searchRes.length===0) return <div className='text-center font-bold text-xl'>No User Found</div>

@@ -1,1 +1,1 @@
-export const BACKEND_URL = "https://codercollab-backend.onrender.com";
+export const BACKEND_URL = "/api";

@@ -10,6 +10,7 @@ import SentRequest from "./components/SentRequest"
 import ReceivedRequest from "./components/ReceivedRequest"
 import UpdatePassword from "./components/UpdatePassword"
 import Search from "./components/Search"
+import Chat from "./components/Chat"
 
 function App() {
 
@@ -27,6 +28,7 @@ function App() {
               <Route path="/receivedRequest" element={<ReceivedRequest/>} />
               <Route path="/updatePassword" element={<UpdatePassword/>} />
               <Route path="/search" element={<Search/>}/>
+              <Route path="/chat/:connectionId" element={<Chat/>}/>
             </Route>
           </Routes>
         </BrowserRouter>

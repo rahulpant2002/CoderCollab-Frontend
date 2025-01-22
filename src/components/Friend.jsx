@@ -5,6 +5,7 @@ import { useDispatch } from 'react-redux';
 import { removeOneReceivedRequest } from '../store/receivedRequestSlice';
 import { removeOneSentRequest } from '../store/sentRequestSlice';
 import { removeOneConnection } from '../store/connectionSlice';
+import { Link } from 'react-router-dom';
 
 const Friend = ({ data }) => {
   const { user, type, _id } = data;
@@ -80,12 +81,18 @@ const Friend = ({ data }) => {
           )}
           
           {type === 'connections' && (
-            <button
-              className="bg-red-600 text-white rounded-md px-3 py-1 w-20"
-              onClick={() => handleRemove(_id)}
-            >
-              Remove
-            </button>
+            <>
+              <button
+                className="bg-red-600 text-white rounded-md px-3 py-1 w-20"
+                onClick={() => handleRemove(_id)}
+              >
+                Remove
+              </button>
+              <Link to={'/chat/'+_id}><button className="bg-green-600 text-white rounded-md px-3 py-1 w-20">
+                  Chat
+                </button>
+              </Link>
+            </>
           )}
         </div>
       </div>

@@ -15,10 +15,7 @@ const Chat = () => {
 
   const fetchToUser = async () => {
     try {
-      const res = await axios.get(
-        BACKEND_URL + `/findChatFriend/${connectionId}`,
-        { withCredentials: true }
-      );
+      const res = await axios.get(BACKEND_URL + `/findChatFriend/${connectionId}`, { withCredentials: true });
       setToUser(res);
     } catch (err) {
       console.error(err.message);
@@ -30,10 +27,7 @@ const Chat = () => {
     if (!userId) return;
 
     const socket = createSocketConnection();
-    socket.emit("joinChat", {
-      fullName: user.firstName + " " + user.lastName,
-      connectionId,
-    });
+    socket.emit("joinChat", { fullName: user.firstName + " " + user.lastName, connectionId });
 
     socket.on("messageReceived", ({ fullName, text }) => {
       setMessages((prevMessages) => [...prevMessages, { fullName, text }]);
@@ -58,55 +52,43 @@ const Chat = () => {
   };
 
   const handleEnterBtn = (e) => {
-    if (e.key === "Enter" && !e.shiftKey) {
-      e.preventDefault();
-      handleSendBtn();
-    }
+    if(e.key === "Enter") handleSendBtn();
   };
 
   return (
-    <div className="w-full max-w-4xl h-[70vh] border rounded-md border-gray-500 mx-auto m-5 flex flex-col bg-gray-900">
-      {/* Header Section */}
-      <div className="flex border-b items-center p-3 gap-3 bg-gray-800">
-        <div className="w-12 h-12 rounded-full">
-          <img
-            alt="Profile Photo"
-            src={photoUrl}
-            className="w-full h-full object-cover rounded-full"
-          />
+    <div className="w-full lg:w-3/4 xl:w-2/3 mx-auto my-8 border border-gray-500 rounded-md bg-base-200 flex flex-col h-[80vh]">
+      
+      <div className="flex items-center border-b border-gray-600 p-4 bg-base-300">
+        <div className="w-12 h-12 rounded-full overflow-hidden">
+          <img alt="Profile" src={photoUrl} className="w-full h-full object-cover" />
         </div>
-        <h1 className="font-bold text-lg text-white">
-          {firstName + " " + lastName}
-        </h1>
+        <h1 className="ml-4 text-xl font-bold text-white">{firstName + " " + lastName}</h1>
       </div>
 
-      {/* Messages Section */}
-      <div className="flex-1 overflow-y-auto p-5 bg-gray-800">
+      <div className="flex-1 overflow-y-auto p-5 bg-base-100">
         {messages.map((msg, index) => (
-          <div key={index} className="chat chat-start mb-3">
-            <div className="chat-header flex items-center gap-2">
-              <span className="font-bold">{msg.fullName}</span>
-              <time className="text-xs opacity-50">2 hours ago</time>
+          <div key={index} className="chat chat-start mb-4">
+            <div className="chat-header">
+              {msg.fullName}
+              <time className="text-xs opacity-50 ml-2">2 hours ago</time>
             </div>
-            <div className="chat-bubble bg-gray-700 text-white p-3 rounded-lg">
-              {msg.text}
-            </div>
+            <div className="chat-bubble bg-blue-500 text-white">{msg.text}</div>
+            <div className="chat-footer text-xs opacity-50">Seen</div>
           </div>
         ))}
       </div>
 
-      {/* Input Section */}
-      <div className="p-3 border-t border-gray-600 flex items-center gap-2 bg-gray-800">
+      <div className="p-4 border-t border-gray-600 bg-base-300 flex items-center gap-3">
         <input
           onKeyDown={handleEnterBtn}
           value={newMessage}
           onChange={(e) => setNewMessage(e.target.value)}
-          className="flex-1 border border-gray-500 rounded p-2 bg-gray-700 text-white"
+          className="flex-1 border border-gray-500 rounded-lg p-3 text-white"
           placeholder="Type a message..."
         />
         <button
           onClick={handleSendBtn}
-          className="btn btn-secondary px-5 py-2 rounded-md"
+          className="btn btn-secondary px-6 py-3 font-bold text-lg rounded-lg"
         >
           Send
         </button>

@@ -37,9 +37,9 @@ const NavBar = () => {
           <Link to="/" className="btn btn-ghost text-2xl font-bold text-blue-600">
             CoderCollab
           </Link>
-          <Link to="/" className="btn btn-ghost bg-base-100 text-xl text-green-300">
+          {user && <Link to="/" className="btn btn-ghost bg-base-100 text-xl text-green-300">
             Home 🏠
-          </Link>
+          </Link>}
         </div>
 
         {user && (

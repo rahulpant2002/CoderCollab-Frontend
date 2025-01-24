@@ -12,7 +12,8 @@ const ReceivedRequest = () => {
   const fetchReceivedRequest = async()=>{
     try{
       const req = await axios.get(BACKEND_URL+"/user/receivedRequests", {withCredentials : true});
-      dispatch(addReceivedRequest(req.data.allReceivedRequests));
+      const filteredRequests = req.data.allReceivedRequests.filter(req => req.fromUserId != null);
+      dispatch(addReceivedRequest(filteredRequests));
     }
     catch(err){
       console.error(err);

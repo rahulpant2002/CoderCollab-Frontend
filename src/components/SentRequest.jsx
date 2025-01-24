@@ -12,7 +12,8 @@ const SentRequest = () => {
   const fetchSentRequest = async()=>{
     try{
       const res = await axios.get(BACKEND_URL+'/user/sentRequests', {withCredentials:true});
-      dispatch(addSentRequest(res.data.allSentRequests));
+      const filteredRequests = res.data.allSentRequests.filter(req => req.toUserId != null);
+      dispatch(addSentRequest(filteredRequests));
     }
     catch(err){
       console.error(err);
@@ -20,8 +21,8 @@ const SentRequest = () => {
   }
 
   useEffect(()=>{
-    fetchSentRequest();
-  }, [sentRequest])
+    if(!sentRequest) fetchSentRequest();
+  }, [])
 
   if(!sentRequest) return;
   if(sentRequest.length === 0){

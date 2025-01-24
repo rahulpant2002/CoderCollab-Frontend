@@ -12,7 +12,8 @@ const Connections = () => {
     const fetchConnection = async()=>{
         try{
             const res = await axios.get(BACKEND_URL + '/user/connections', {withCredentials:true});
-            dispatch(addConnections(res.data.data));
+            const filteredRes = res.data.data.filter(req => req.data._id != null);
+            dispatch(addConnections(filteredRes));
         }
         catch(err){
             console.error(err);
@@ -35,7 +36,7 @@ const Connections = () => {
     <div>
         <h1 className='text-2xl font-bold text-center mt-3' >Connections - {connection.length}</h1>
         <div className='flex flex-col gap-3 mt-10 pl-3 py-3'>
-            {
+            {  
                 connection.map(conn=>{
                     return <Friend key={conn._id} data={{user : conn.data, _id : conn._id, type : "connections"}}
               />})

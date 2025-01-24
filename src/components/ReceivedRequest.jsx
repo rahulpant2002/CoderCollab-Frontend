@@ -20,8 +20,8 @@ const ReceivedRequest = () => {
   }
 
   useEffect(()=>{
-    if(!receivedRequest) fetchReceivedRequest();
-  }, []);
+    fetchReceivedRequest();
+  }, [receivedRequest]);
 
   if(!receivedRequest) return;
   if(receivedRequest.length === 0){

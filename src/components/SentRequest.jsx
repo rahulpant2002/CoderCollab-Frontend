@@ -20,8 +20,8 @@ const SentRequest = () => {
   }
 
   useEffect(()=>{
-    if(!sentRequest) fetchSentRequest();
-  }, [])
+    fetchSentRequest();
+  }, [sentRequest])
 
   if(!sentRequest) return;
   if(sentRequest.length === 0){

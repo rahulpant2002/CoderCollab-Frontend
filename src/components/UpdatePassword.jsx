@@ -1,118 +1,66 @@
-import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import { BACKEND_URL } from "../utils/constant";
 import axios from "axios";
-import { createSocketConnection } from "../utils/socket";
-import { useSelector } from "react-redux";
+import { useState } from "react"
+import { BACKEND_URL } from "../utils/constant";
 
-const Chat = () => {
-  const { connectionId } = useParams();
-  const [messages, setMessages] = useState([]);
-  const [newMessage, setNewMessage] = useState("");
-  const [toUser, setToUser] = useState(null);
-  const user = useSelector((store) => store.user);
-  const userId = user?._id;
+const UpdatePassword = () => {
+    const [existingPassword, setExistingPassword] = useState("");
+    const [updatedPassword, setUpdatedPassword] = useState("");
+    const [toastMessage, setToastMessage] = useState("");
+    const [errorMessage, setErrorMessage] = useState("");
 
-  const fetchToUser = async () => {
-    try {
-      const res = await axios.get(
-        BACKEND_URL + `/findChatFriend/${connectionId}`,
-        { withCredentials: true }
-      );
-      setToUser(res);
-    } catch (err) {
-      console.error(err.message);
+    const handleButton = async()=>{
+        try{
+            await axios.put(BACKEND_URL+"/profile/updatePassword", {existingPassword, updatedPassword}, {withCredentials : true});
+            setToastMessage("Password Updated Successfully.");
+            setErrorMessage("");
+            setTimeout(()=>{
+                setToastMessage("");
+            }, 1500);
+        }
+        catch(err){
+            setErrorMessage(err.response.data);
+        }
     }
-  };
-
-  useEffect(() => {
-    if (!toUser) fetchToUser();
-    if (!userId) return;
-
-    const socket = createSocketConnection();
-    socket.emit("joinChat", {
-      fullName: user.firstName + " " + user.lastName,
-      connectionId,
-    });
-
-    socket.on("messageReceived", ({ fullName, text }) => {
-      setMessages((prevMessages) => [...prevMessages, { fullName, text }]);
-    });
-
-    return () => {
-      socket.disconnect();
-    };
-  }, [userId, connectionId]);
-
-  if (!toUser) return null;
-  const { firstName, lastName, photoUrl } = toUser?.data?.data;
-
-  const handleSendBtn = () => {
-    const socket = createSocketConnection();
-    socket.emit("sendMessage", {
-      fullName: user.firstName + " " + user.lastName,
-      connectionId,
-      text: newMessage,
-    });
-    setNewMessage("");
-  };
-
-  const handleEnterBtn = (e) => {
-    if (e.key === "Enter" && !e.shiftKey) {
-      e.preventDefault();
-      handleSendBtn();
-    }
-  };
 
   return (
-    <div className="w-full max-w-4xl h-[70vh] border rounded-md border-gray-500 mx-auto m-5 flex flex-col bg-gray-900">
-      {/* Header Section */}
-      <div className="flex border-b items-center p-3 gap-3 bg-gray-800">
-        <div className="w-12 h-12 rounded-full">
-          <img
-            alt="Profile Photo"
-            src={photoUrl}
-            className="w-full h-full object-cover rounded-full"
-          />
+    <div className="flex justify-center items-center mt-3">
+        <div className="card bg-base-300 w-96 shadow-xl">
+            <div className="card-body">
+                <h2 className="card-title justify-center font-bold text-xl">Update Password</h2>
+
+                <label className="form-control w-full max-w-xs">
+                    <div className="label">
+                        <span className="label-text">Current Password</span>
+                    </div>
+                    <input type="text" value={existingPassword} onChange={e => {setExistingPassword(e.target.value)}} className="input input-bordered w-full max-w-xs" />
+                </label> 
+
+                <label className="form-control w-full max-w-xs">
+                    <div className="label">
+                        <span className="label-text">New Password</span>
+                    </div>
+                    <input type="password" value={updatedPassword} onChange={e => {setUpdatedPassword(e.target.value)}} className="input input-bordered w-full max-w-xs" />
+                </label>
+
+
+                {errorMessage && <p className="text-red-600 text-lg">{errorMessage}</p>}
+                
+                <div className="card-actions justify-center mt-3 ">
+                    <button className="btn btn-primary font-bold text-lg " onClick={ handleButton} >
+                        Update
+                    </button>
+                </div>
+
+                {toastMessage && <div className="toast toast-top toast-center z-10">
+                    <div className="alert alert-success">
+                        <span>{toastMessage}</span>
+                    </div>
+                </div>}
+
+            </div>
         </div>
-        <h1 className="font-bold text-lg text-white">
-          {firstName + " " + lastName}
-        </h1>
-      </div>
-
-      {/* Messages Section */}
-      <div className="flex-1 overflow-y-auto p-5 bg-gray-800">
-        {messages.map((msg, index) => (
-          <div key={index} className="chat chat-start mb-3">
-            <div className="chat-header flex items-center gap-2">
-              <span className="font-bold">{msg.fullName}</span>
-              <time className="text-xs opacity-50">2 hours ago</time>
-            </div>
-            <div className="chat-bubble bg-gray-700 text-white p-3 rounded-lg">
-              {msg.text}
-            </div>
-          </div>
-        ))}
-      </div>
-
-      {/* Input Section */}
-      <div className="p-3 border-t border-gray-600 flex items-center gap-2 bg-gray-800">
-        <input
-          onKeyDown={handleEnterBtn}
-          value={newMessage}
-          onChange={(e) => setNewMessage(e.target.value)}
-          className="flex-1 border border-gray-500 rounded p-2 bg-gray-700 text-white"
-          placeholder="Type a message..."
-        />
-        <button
-          onClick={handleSendBtn}
-          className="btn btn-secondary px-5 py-2 rounded-md"
-        >
-          Send
-        </button>
-      </div>
     </div>
-  );
-};
+  )
+}
 
-export default Chat;
+export default UpdatePassword;

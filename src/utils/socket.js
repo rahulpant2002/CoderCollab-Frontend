@@ -2,8 +2,14 @@ import { io } from "socket.io-client";
 import { BACKEND_URL } from "./constant";
 
 export const createSocketConnection = () => { 
-    if(location.hostname==="localhost") return new io(BACKEND_URL);
+    let socket;
+    if(location.hostname==="localhost") socket = new io(BACKEND_URL);
     else{
-        return new io('/', {path : '/api/socket.io'});
+        socket = new io('/', {
+            path : '/api/socket.io',
+            transports : ["websocket"]
+        });
     }
+
+    return socket;
 };

@@ -11,6 +11,7 @@ const Chat = () => {
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
   const [toUser, setToUser] = useState(null);
+  const [socket, setSocket] = useState();
   const user = useSelector((store) => store.user);
   const userId = user?._id;
 
@@ -36,15 +37,16 @@ const Chat = () => {
   useEffect(() => {
     if (!userId) return;
 
-    const socket = createSocketConnection();
-    socket.emit("joinChat", { sender: user.firstName + " " + user.lastName, connectionId });
+    const newSocket = createSocketConnection();
+    setSocket(newSocket);
+    newSocket.emit("joinChat", { sender: user.firstName + " " + user.lastName, connectionId });
 
-    socket.on("messageReceived", ({ sender, message }) => {
+    newSocket.on("messageReceived", ({ sender, message }) => {
       setMessages((prevMessages) => [...prevMessages, { sender, message }]);
     });
 
     return () => {
-      socket.disconnect();
+      newSocket.disconnect();
     };
   }, [userId, connectionId]);
 
@@ -52,12 +54,13 @@ const Chat = () => {
   const { firstName, lastName, photoUrl } = toUser?.data?.data;
 
   const handleSendBtn = () => {
-    if(newMessage.length===0) return;
-    const socket = createSocketConnection();
+    const newMsg = newMessage.trim();
+    if(newMsg.length===0) return;
+
     socket.emit("sendMessage", {
       sender: user.firstName + " " + user.lastName,
       connectionId,
-      message: newMessage,
+      message: newMsg,
     });
     setNewMessage("");
   };
